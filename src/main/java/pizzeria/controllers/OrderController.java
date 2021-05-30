@@ -10,6 +10,7 @@ import pizzeria.dbService.dataSets.Order;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("orders")
@@ -23,14 +24,13 @@ public class OrderController {
 
     @GetMapping("{id}")
     public Order get(@PathVariable String id){
-        return dbService.getOrder(Integer.parseInt(id));
+        return dbService.getOrder(id);
     }
 
     @PostMapping()
     public ResponseEntity<Order> create(@RequestBody Order order) {
         order.setDate(java.util.Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         dbService.addOrder(order);
-//        var order = new Order(requestOrder.get("clientName"), requestOrder.get("clientPhone"), Integer.parseInt(requestOrder.get("cost")), java.util.Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
@@ -41,6 +41,6 @@ public class OrderController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id){
-        dbService.deleteOrder(Integer.parseInt(id));
+        dbService.deleteOrder(id);
     }
 }

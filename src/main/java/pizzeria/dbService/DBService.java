@@ -88,7 +88,7 @@ public class DBService {
         }
     }
 
-    public Order getOrder(int id) {
+    public Order getOrder(String id) {
         try{
             return new OrderDAO(connection).get(id);
         } catch (SQLException e){
@@ -117,7 +117,7 @@ public class DBService {
         }
     }
 
-    public void deleteOrder(int id) {
+    public void deleteOrder(String id) {
         try {
             connection.setAutoCommit(false);
             new OrderDAO(connection).delete(id);

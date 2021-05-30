@@ -1,11 +1,12 @@
 package pizzeria.dbService.dataSets;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Order {
     public Order() {}
 
-    private int id;
+    private String id = UUID.randomUUID().toString();
 
     private String clientName;
 
@@ -15,15 +16,7 @@ public class Order {
 
     private Date date; //TODO: в контролерре устанавливать дату
 
-    public Order(String clientName, String clientPhone, int cost, Date date){
-        this.id = 0;
-        this.clientName = clientName;
-        this.clientPhone = clientPhone;
-        this.cost = cost;
-        this.date = date;
-    }
-
-    public Order(int id, String clientName, String clientPhone, int cost, Date date){
+    public Order(String id, String clientName, String clientPhone, int cost, Date date){
         this.id = id;
         this.clientName = clientName;
         this.clientPhone = clientPhone;
@@ -31,7 +24,15 @@ public class Order {
         this.date = date;
     }
 
-    public Integer getId() {
+    public Order(String clientName, String clientPhone, int cost, Date date){
+//        this.id = UUID.randomUUID().toString();
+        this.clientName = clientName;
+        this.clientPhone = clientPhone;
+        this.cost = cost;
+        this.date = date;
+    }
+
+    public String getId() {
         return id;
     }
 
