@@ -1,24 +1,27 @@
 package pizzeria.dbService.dataSets;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "Order")
 public class Order {
-    public Order() { }
+    public Order() {}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
+
     private String clientName;
-    @Column
+
     private String clientPhone;
-    @Column
+
     private int cost;
-    @Column
+
     private Date date; //TODO: в контролерре устанавливать дату
+
+    public Order(String clientName, String clientPhone, int cost, Date date){
+        this.id = 0;
+        this.clientName = clientName;
+        this.clientPhone = clientPhone;
+        this.cost = cost;
+        this.date = date;
+    }
 
     public Order(int id, String clientName, String clientPhone, int cost, Date date){
         this.id = id;

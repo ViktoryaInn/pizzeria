@@ -17,12 +17,12 @@ public class OrderDAO {
     }
 
     public void insert(Order order) throws SQLException {
-        executor.execUpdate(String.format("insert into Order (client_name, client_phone, cost, date) values ('%s', '%s', %d, '%s')",
+        executor.execUpdate(String.format("insert into ORDER_TABLE (client_name, client_phone, cost, date) values ('%s', '%s', %d, '%s')",
                 order.getClientName(), order.getClientPhone(), order.getCost(), sqlFormat.format(order.getDate())));
     }
 
     public Order get(int id) throws SQLException {
-        return executor.execQuery("select * from Order where id=" + id, result -> {
+        return executor.execQuery("select * from ORDER_TABLE where id=" + id, result -> {
             result.next();
             return new Order(
                     result.getInt("id"),
@@ -34,7 +34,7 @@ public class OrderDAO {
     }
 
     public Order[] getAll() throws SQLException {
-        return executor.execQuery("select * from Order", result -> {
+        return executor.execQuery("select * from ORDER_TABLE;", result -> {
             var list = new LinkedList<Order>();
             while (result.next()) {
                 list.add(new Order(result.getInt("id"),
@@ -49,11 +49,11 @@ public class OrderDAO {
     }
 
     public void update(Order order) throws SQLException {
-        executor.execUpdate(String.format("update Order set cost=%d, client_name='%s', client_phone='%s', date='%s' where id=%d",
-                order.getCost(), order.getClientName(), order.getClientPhone(), sqlFormat.format(order.getDate()), order.getId()));
+        executor.execUpdate(String.format("update ORDER_TABLE set cost=%d, client_name='%s', client_phone='%s' where id=%d",
+                order.getCost(), order.getClientName(), order.getClientPhone(), order.getId()));
     }
 
     public void delete(int id) throws SQLException {
-        executor.execUpdate("delete from Order where id=" + id);
+        executor.execUpdate("delete from ORDER_TABLE where id=" + id);
     }
 }

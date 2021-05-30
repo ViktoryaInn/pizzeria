@@ -34,6 +34,11 @@ public class IngredientController {
     public void delete(@PathVariable String id){
         dbService.deleteIngredient(Integer.parseInt(id));
     }
+
+    @GetMapping("orders")
+    public Order[] getOrdersList(){
+        return dbService.getListOrder();
+    }
 //    private int counter = 3;
 //
 //    private List<Map<String,String>> ingredients = new ArrayList<Map<String,String>>(){{

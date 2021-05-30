@@ -15,19 +15,19 @@ public class IngredientDAO {
     }
 
     public void insert(Ingredient ingredient) throws SQLException {
-        executor.execUpdate(String.format("insert into Ingredient (id, name, price) values (%d, '%s', %d)",
+        executor.execUpdate(String.format("insert into INGREDIENT_TABLE (id, name, price) values (%d, '%s', %d)",
                 ingredient.getId(), ingredient.getName(), ingredient.getPrice()));
     }
 
     public Ingredient get(int id) throws SQLException {
-        return executor.execQuery("select * from Ingredient where id=" + id,result -> {
+        return executor.execQuery("select * from INGREDIENT_TABLE where id=" + id,result -> {
             result.next();
             return new Ingredient(result.getInt("id"), result.getString("name"), result.getInt("price"));
         });
     }
 
     public Ingredient[] getAll() throws SQLException {
-        return executor.execQuery("select * from Ingredient", result -> {
+        return executor.execQuery("select * from INGREDIENT_TABLE", result -> {
             var list = new LinkedList<Ingredient>();
             while (result.next())
             {
@@ -39,11 +39,11 @@ public class IngredientDAO {
     }
 
     public void update(Ingredient ingredient) throws SQLException {
-        executor.execUpdate(String.format("update Ingredient set price=%d, name='%s' where id=%d",
+        executor.execUpdate(String.format("update INGREDIENT_TABLE set price=%d, name='%s' where id=%d",
                 ingredient.getPrice(), ingredient.getName(), ingredient.getId()));
     }
 
     public void delete(int id) throws SQLException {
-        executor.execUpdate("delete from Ingredient where id=" + id);
+        executor.execUpdate("delete from INGREDIENT_TABLE where id=" + id);
     }
 }

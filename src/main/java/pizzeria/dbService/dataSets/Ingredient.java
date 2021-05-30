@@ -1,18 +1,12 @@
 package pizzeria.dbService.dataSets;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "Ingredient")
 public class Ingredient {
     public Ingredient() {}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
+
     private String name;
-    @Column
+
     private int price;
 
     public Ingredient(int id, String name, int price){
