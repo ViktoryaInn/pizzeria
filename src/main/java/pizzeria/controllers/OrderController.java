@@ -4,13 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pizzeria.dbService.DBService;
-import pizzeria.dbService.dataSets.Ingredient;
 import pizzeria.dbService.dataSets.Order;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("orders")

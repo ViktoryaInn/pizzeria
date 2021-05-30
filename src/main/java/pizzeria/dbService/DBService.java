@@ -40,7 +40,7 @@ public class DBService {
         }
     }
 
-    public Ingredient getIngredient(int id) {
+    public Ingredient getIngredient(String id) {
         try{
             return new IngredientDAO(connection).get(id);
         } catch (SQLException e){
@@ -69,7 +69,7 @@ public class DBService {
         }
     }
 
-    public void deleteIngredient(int id) {
+    public void deleteIngredient(String id) {
         try {
             connection.setAutoCommit(false);
             new IngredientDAO(connection).delete(id);

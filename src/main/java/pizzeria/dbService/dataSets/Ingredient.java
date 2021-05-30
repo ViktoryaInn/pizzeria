@@ -1,15 +1,22 @@
 package pizzeria.dbService.dataSets;
 
+import java.util.UUID;
+
 public class Ingredient {
     public Ingredient() {}
 
-    private int id;
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 
     private int price;
 
-    public Ingredient(int id, String name, int price){
+    public Ingredient(String name, int price){
+        this.name = name;
+        this.price = price;
+    }
+
+    public Ingredient(String id, String name, int price){
         this.id = id;
         this.name = name;
         this.price = price;
@@ -20,7 +27,7 @@ public class Ingredient {
         return name + " " + price;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 

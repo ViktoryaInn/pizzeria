@@ -1,5 +1,7 @@
 package pizzeria.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pizzeria.dbService.DBService;
 import pizzeria.dbService.dataSets.Ingredient;
@@ -17,12 +19,13 @@ public class IngredientController {
 
     @GetMapping("{id}")
     public Ingredient get(@PathVariable String id){
-        return dbService.getIngredient(Integer.parseInt(id));
+        return dbService.getIngredient(id);
     }
 
     @PostMapping()
-    public void create(@RequestBody Ingredient ingredient){
+    public ResponseEntity<Ingredient> create(@RequestBody Ingredient ingredient){
         dbService.addIngredient(ingredient);
+        return new ResponseEntity<>(ingredient, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
@@ -32,7 +35,7 @@ public class IngredientController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id){
-        dbService.deleteIngredient(Integer.parseInt(id));
+        dbService.deleteIngredient(id);
     }
 
     @GetMapping("orders")

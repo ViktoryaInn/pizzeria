@@ -25,7 +25,6 @@ public class Order {
     }
 
     public Order(String clientName, String clientPhone, int cost, Date date){
-//        this.id = UUID.randomUUID().toString();
         this.clientName = clientName;
         this.clientPhone = clientPhone;
         this.cost = cost;
