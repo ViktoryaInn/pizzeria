@@ -1,15 +1,21 @@
 package pizzeria.dbService.dataSets;
 
 public class OrderIngredients {
-    public OrderIngredients(){}
 
-    private int ingredientId;
+    private String ingredientId;
 
-    private int orderId;
+    private String orderId;
 
-    public OrderIngredients(int ingredientId, int orderId){
+    public OrderIngredients(String ingredientId, String orderId){
         this.ingredientId = ingredientId;
         this.orderId = orderId;
     }
 
+    public String getIngredientId() {
+        return ingredientId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
 }

@@ -1,6 +1,6 @@
 package pizzeria.dbService.dao;
 
-import pizzeria.dbService.dataSets.User;
+import pizzeria.dbService.dataSets.Usr;
 import pizzeria.dbService.executor.Executor;
 
 import java.sql.Connection;
@@ -13,17 +13,16 @@ public class UserDAO {
         executor = new Executor(connection);
     }
 
-    public void insert(User user) throws SQLException {
-        executor.execUpdate(String.format("insert into User (login, password, role) values ('%s', '%s', '%s')",
+    public void insert(Usr user) throws SQLException {
+        executor.execUpdate(String.format("insert into USER_TABLE (login, password, role) values ('%s', '%s', '%s')",
                 user.getLogin(), user.getPassword(), user.getRole()));
     }
 
-    public User get(String login) {
+    public Usr get(String login) {
         try{
-            return executor.execQuery(String.format("select * from User where login='%s'", login), result -> {
+            return executor.execQuery(String.format("select * from USER_TABLE where login='%s'", login), result -> {
                 result.next();
-                return new User(
-                        result.getInt("id"),
+                return new Usr(
                         result.getString("login"),
                         result.getString("password"),
                         result.getString("role"));
@@ -34,7 +33,7 @@ public class UserDAO {
     }
 
     public boolean checkUserExists(String login) throws SQLException {
-        return executor.execQuery(String.format("select exists (select * from User where login='%s')", login), result -> {
+        return executor.execQuery(String.format("select exists (select * from USER_TABLE where login='%s')", login), result -> {
             result.next();
             return result.getBoolean(1);
         });

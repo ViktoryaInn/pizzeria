@@ -1,19 +1,16 @@
 package pizzeria.dbService.dataSets;
 
-public class User {
-    private int id;
+public class Usr {
+
     private String login;
     private String password;
     private String role;
 
-    public User(int id, String login, String password, String role){
-        this.id = id;
+    public Usr(String login, String password, String role){
         this.login = login;
         this.password = password;
         this.role = role;
     }
-
-    public int getId() { return id; }
 
     public String getLogin() { return login; }
 

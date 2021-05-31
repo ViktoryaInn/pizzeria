@@ -23,13 +23,18 @@ public class OrderDAO {
 
     public Order get(String id) throws SQLException {
         return executor.execQuery(String.format("select * from ORDER_TABLE where id='%s'", id), result -> {
-            result.next();
-            return new Order(
-                    result.getString("id"),
-                    result.getString("client_name"),
-                    result.getString("client_phone"),
-                    result.getInt("cost"),
-                    result.getTimestamp("date"));
+            try {
+                result.next();
+                return new Order(
+                        result.getString("id"),
+                        result.getString("client_name"),
+                        result.getString("client_phone"),
+                        result.getInt("cost"),
+                        result.getTimestamp("date"));
+            } catch (SQLException e) {
+                return null;
+            }
+
         });
     }
 

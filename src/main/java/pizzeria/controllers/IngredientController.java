@@ -1,5 +1,6 @@
 package pizzeria.controllers;
 
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,34 +14,52 @@ public class IngredientController {
     private DBService dbService = new DBService();
 
     @GetMapping()
-    public Ingredient[] getList(){
-        return dbService.getListIngredient();
+    public ResponseEntity<Ingredient[]> getList(){
+        Ingredient[] ingredients = dbService.getListIngredient();
+        if(ingredients.length == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(ingredients, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public Ingredient get(@PathVariable String id){
-        return dbService.getIngredient(id);
+    public ResponseEntity<Ingredient> get(@PathVariable String id){
+        if (id == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Ingredient responseIngredient = dbService.getIngredient(id);
+        if(responseIngredient == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(responseIngredient, HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Ingredient> create(@RequestBody Ingredient ingredient){
+        if (ingredient == null || ingredient.getName() == null || ingredient.getPrice() == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         dbService.addIngredient(ingredient);
         return new ResponseEntity<>(ingredient, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public void update(@PathVariable String id, @RequestBody Ingredient ingredient){
+    public ResponseEntity<Ingredient> update(@PathVariable String id, @RequestBody Ingredient ingredient){
+        if (ingredient == null || ingredient.getId() == null || ingredient.getName() == null || ingredient.getPrice() == 0){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         dbService.updateIngredient(ingredient);
+        return new ResponseEntity<>(ingredient, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable String id){
+    public ResponseEntity<Ingredient> delete(@PathVariable String id){
+        Ingredient ingredient = dbService.getIngredient(id);
+        if(ingredient == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         dbService.deleteIngredient(id);
-    }
-
-    @GetMapping("orders")
-    public Order[] getOrdersList(){
-        return dbService.getListOrder();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 //    private int counter = 3;
 //

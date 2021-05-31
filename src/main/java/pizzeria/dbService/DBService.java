@@ -2,12 +2,17 @@ package pizzeria.dbService;
 
 import pizzeria.dbService.dao.IngredientDAO;
 import pizzeria.dbService.dao.OrderDAO;
+import pizzeria.dbService.dao.OrderIngredientsDAO;
+import pizzeria.dbService.dao.UserDAO;
 import pizzeria.dbService.dataSets.Ingredient;
 import pizzeria.dbService.dataSets.Order;
+import pizzeria.dbService.dataSets.OrderIngredients;
+import pizzeria.dbService.dataSets.Usr;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 public class DBService {
     private final Connection connection;
@@ -97,12 +102,36 @@ public class DBService {
         }
     }
 
+    public Ingredient[] getIngredientsByOrder(String orderId){
+        try{
+            OrderIngredients[] orderIngredients = new OrderIngredientsDAO(connection).getByOrder(orderId);
+            var list = new LinkedList<Ingredient>();
+            for(OrderIngredients orderIngredient: orderIngredients){
+                list.add(new IngredientDAO(connection).get(orderIngredient.getIngredientId()));
+            }
+            return list.toArray(new Ingredient[0]);
+        }catch(SQLException e){
+            e.printStackTrace();
+            return new Ingredient[0];
+        }
+    }
+
     public void addOrder(Order order) {
         try {
             connection.setAutoCommit(false);
             new OrderDAO(connection).insert(order);
             connection.commit();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addIngredientToOrder(String orderId, String ingredientId){
+        try{
+            connection.setAutoCommit(false);
+            new OrderIngredientsDAO(connection).insert(orderId, ingredientId);
+            connection.commit();
+        } catch (SQLException e){
             e.printStackTrace();
         }
     }
@@ -125,5 +154,23 @@ public class DBService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addUser(Usr user){
+        try{
+            connection.setAutoCommit(false);
+            new UserDAO(connection).insert(user);
+            connection.commit();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Usr getUser(String login) {
+        return new UserDAO(connection).get(login);
+    }
+
+    public boolean checkUserExists(String login) throws SQLException {
+        return new UserDAO(connection).checkUserExists(login);
     }
 }

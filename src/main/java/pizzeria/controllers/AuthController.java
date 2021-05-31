@@ -1,7 +1,13 @@
 package pizzeria.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import pizzeria.dbService.dataSets.Usr;
 import pizzeria.exeptions.NotFoundException;
+import pizzeria.services.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +17,39 @@ import java.util.Map;
 @RestController
 @RequestMapping("auth")
 public class AuthController {
-    private int counter = 3;
+
+    @Autowired
+    UserService userService;
+
+    @PostMapping
+    public ResponseEntity<Usr> login(@RequestBody Usr user) {
+        try {
+            Usr responseUser = userService.login(user);
+            return new ResponseEntity<>(responseUser, HttpStatus.OK);
+        } catch (UsernameNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("registration")
+    public ResponseEntity<Usr> register(@RequestBody Usr user) {
+        Usr responseUser = userService.register(user);
+        return new ResponseEntity<>(responseUser, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Usr> user(@RequestBody Usr user) {
+        try {
+            Usr responseUser = userService.login(user);
+            return new ResponseEntity<>(responseUser, HttpStatus.OK);
+        } catch (UsernameNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+    /*private int counter = 3;
 
     private List<Map<String,String>> users = new ArrayList<Map<String,String>>(){{
         add(new HashMap<String, String>() {{put("id", "0"); put("login", "user0"); put("password", "user0"); put("role", "USER");}});
@@ -43,9 +81,6 @@ public class AuthController {
                 .orElseThrow(NotFoundException::new);
     }
 
-//    @PostMapping
-//    public Map<String, String> authenticate(@RequestBody Map<String, String> user){} log in
-
     @PostMapping
     public Map<String, String> authenticate(@RequestBody Map<String, String> user){
         Map<String, String> userFromDB = getUserByLogin(user.get("login"));
@@ -58,5 +93,5 @@ public class AuthController {
         user.put("role", "USER");
         users.add(user);
         return user;
-    }
+    }*/
 }

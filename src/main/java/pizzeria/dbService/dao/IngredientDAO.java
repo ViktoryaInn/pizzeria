@@ -20,13 +20,17 @@ public class IngredientDAO {
     }
 
     public Ingredient get(String id) throws SQLException {
-        return executor.execQuery(String.format("select * from INGREDIENT_TABLE where id='%s'", id),result -> {
-            result.next();
-            return new Ingredient(
-                    result.getString("id"),
-                    result.getString("name"),
-                    result.getInt("price")
-            );
+        return executor.execQuery(String.format("select * from INGREDIENT_TABLE where id='%s'", id), result -> {
+            try {
+                result.next();
+                return new Ingredient(
+                        result.getString("id"),
+                        result.getString("name"),
+                        result.getInt("price")
+                );
+            } catch (SQLException e){
+                return null;
+            }
         });
     }
 
