@@ -26,7 +26,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .csrf().disable() //Отключает CSRF Protection, поскольку она не нужна для API
             .authorizeRequests()
                 .antMatchers("/", "/auth**", "/js/**", "/error**").permitAll()
-                .anyRequest().authenticated() //Декларирует, что все запросы к любой конечной точке должны быть авторизованы, иначе они должны быть отклонены.
+                .anyRequest().permitAll() //Декларирует, что все запросы к любой конечной точке должны быть авторизованы, иначе они должны быть отклонены.
             .and().httpBasic() // сообщает Spring, чтобы он ожидал базовую HTTP аутентификацию (обсуждалось выше).
             .and().sessionManagement().disable(); // сообщает Spring, что не следует хранить информацию о сеансе для пользователей, поскольку это не нужно для API
 //        http

@@ -160,7 +160,6 @@ var app = new Vue({
     template:
         '<div>' +
             '<users-list :users="users"/>' +
-            '<registration-form @register="addUser($event)"/>' +
             '<ingredients-list @change="changeIngredients()" :ingredients="ingredients"/>' +
             '<ingredient-form @add="addIngredient($event)"/>' +
         '</div>',
